@@ -1,4 +1,4 @@
-# Resonance
+# resonance
 Version 0.0.3-web.
 Programmed by: Helios Martinez Dominguez.
 Resonance modes frequencies graphic tool.
