@@ -8,3 +8,6 @@ It shows height, width, length and axial frequencies resonating into a room due 
 It graphs each mode harmonic serie in a different color and they can be turned on and off at requirement.
 It is programmed in HTML, Processing.js (Javascript) and PHP7 and requires a web server and PHP installed to operate.
 It is multiplatform. To install, just copy the files to a folder within your web service scope providing execution priviledges.
+
+It can be tested freely at:
+resonanceapp.unaux.com
