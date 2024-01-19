@@ -10,4 +10,4 @@ It is programmed in HTML, Processing.js (Javascript) and PHP7 and requires a web
 It is multiplatform. To install, just copy the files to a folder within your web service scope providing execution priviledges.
 
 It can be tested freely at:
-resonanceapp.unaux.com
+http://resonanceapp.unaux.com
