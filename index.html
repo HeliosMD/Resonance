@@ -1,0 +1,214 @@
+<head><title>Resonance</title></head>
+<body text="#666666" link="#777777" vlink="#777777"><font face="arial"><small><small>
+
+<script type="text/javascript">
+	var sw = screen.width - 15;
+	var sh = screen.height - 200;
+	var cx = sw / 2;
+	var cy = sh / 2;
+
+	var wc = 10;	// width cursor
+	var xc = 0;	// x cursor
+	var yc = sh;	// y cursor
+	var hc = 0;	// height cursor
+
+	var he = 250;	// HEIGHT (cm)
+	var wi = 300;	// WIDTH (cm)
+	var le = 225;	// LENGTH (cm)
+	var i = 0;	// harmonics (variable declaration)
+
+	var the = he;	// text HEIGHT (cm)
+	var twi = wi;	// text WIDTH (cm)
+	var tle = le;	// text LENGTH (cm)
+	var i = 0;	// harmonics (variable declaration)
+
+	var ach = 1;	// axial check
+
+	var hch = 1;	// height check
+	var wch = 1;	// width check
+	var lch = 1;	// length check
+
+	var hwch = 1;	// height-width check
+	var wlch = 1;	// width-length check
+	var lhch = 1;	// length-height check
+
+	var dbch = 2;	// dB scale
+	
+</script>
+<div class="content">
+<div class="graphic">
+
+<script type="application/processing">
+
+string sala="Sala de Control";		// display hall name
+boolean[] axiales =  new axiales[7];
+for(int a=1;a<=7;a++){axiales[a]=true;}
+string[] checks =  new checks[7];
+int s=10;
+int o=100;
+checks[1]="Altura";			// height label
+checks[2]="Anchura";			// width label
+checks[3]="Longitud";			// length label
+checks[4]="Alt/Anch";			// axial height/width label
+checks[5]="Anch/Lon";			// axial width/length label
+checks[6]="Lon/Alt";			// axial length/height label
+checks[7]="Axial";			// axial height/width/length label
+
+boolean overButton=false;
+int button=0;
+
+void setup() {
+	size(sw, sh);
+
+	hw = (he*he)+(wi*wi);
+	wl = (wi*wi)+(le*le);
+	lh = (le*le)+(he*he);
+
+	hw = sqrt(hw);
+	wl = sqrt(wl);
+	lh = sqrt(lh);
+
+	ax = sqrt((hw*hw)+(wl*wl));
+
+	hw = 34000/hw;
+	wl = 34000/wl;
+	lh = 34000/lh;
+
+	he = 34000/he;
+	wi = 34000/wi;
+	le = 34000/le;
+
+	ax = 34000/ax;
+
+}
+
+void draw() {
+	int dy = 0;
+	int y2 = 0;
+	background(64);
+
+	for (int w=0; w<sw; w=w+10){
+		stroke(80);
+		line(w,0,w,sh);
+	}
+
+	if (mousePressed && (mouseButton == LEFT)) {
+		xc=mouseX;
+		yc=mouseY;
+		hc=sh-mouseY;
+		for(int n=1;n<=7;n++)
+		{
+			if (xc>5+(n-1)*o && xc<5+(n-1)*o+10 && yc>15 && yc<30)
+			{
+				changeButton(n);
+			}
+		}
+	}
+
+	fill(192);
+	stroke(192);
+	rect(xc-wc/2,yc,wc,hc);
+
+	fill(255);
+	stroke(255);
+	line(xc,0,xc,sh);
+	line(0,yc,sw,yc);
+
+	for(i=1; i<32; i++){
+		// armonico altura
+		fill(255,255,0);
+		stroke(255,255,0);
+		rect(he*i-wc/2,sh,wc,-1*sh/i/4*hch*axiales[1]*dbch);
+		// armonico anchura
+		fill(0,0,255);
+		stroke(0,0,255);
+		rect(wi*i-wc/2,sh,wc,-1*sh/i/4*wch*axiales[2]*dbch);
+		// armonico longitud
+		fill(255,0,0);
+		stroke(255,0,0);
+		rect(le*i-wc/2,sh,wc,-1*sh/i/4*lch*axiales[3]*dbch);
+		// armonico axial altura/anchura
+		fill(0,128,0);
+		stroke(0,128,0);
+		rect(hw*i-wc/2,sh,wc,-1*sh/i/8*hwch*axiales[4]*dbch);
+		// armonico axial anchura/longitud
+		fill(128,0,128);
+		stroke(128,0,128);
+		rect(wl*i-wc/2,sh,wc,-1*sh/i/8*wlch*axiales[5]*dbch);
+		// armonico axial longitud/altura
+		fill(255,128,0);
+		stroke(255,128,0);
+		rect(lh*i-wc/2,sh,wc,-1*sh/i/8*lhch*axiales[6]*dbch);
+		// armonico axial altura/anchura/longitud
+		fill(128);
+		stroke(128);
+		rect(ax*i-wc/2,sh,wc,-1*sh/i/8*ach*axiales[7]*dbch);
+	}
+
+	stroke(255);
+	fill(255);
+	textSize(10);
+	stroke(192);
+	line(0,cy,sw,cy);
+	text(12/dbch+"dB", 5, cy-5);
+	line(0,cy+cy/2,sw,cy+cy/2);
+	text(6/dbch+"dB", 5, cy+cy/2-5);
+        line(0,cy+cy/2+cy/4,sw,cy+cy/2+cy/4);
+	text(3/dbch+"dB", 5, cy+cy/2+cy/4-5);
+        line(0,cy+cy/2+cy/4+cy/8,sw,cy+cy/2+cy/4+cy/8);
+	text(1.5/dbch+"dB", 5, cy+cy/2+cy/4+cy/8-5);
+	line(0,cy+cy/2+cy/4+cy/8+cy/16,sw,cy+cy/2+cy/4+cy/8+cy/16);
+	text(0.75/dbch+"dB", 5, cy+cy/2+cy/4+cy/8+cy/16-2);
+
+
+	if (yc>30){text(round(xc)+"Hz, "+(round(hc/sh*24)/dbch)+"dB", xc+5, yc-5);}
+	if (yc<30){text(round(xc)+"Hz, "+(round(hc/sh*24)/dbch)+"dB", xc+5, yc+30);}
+
+	for (int w=0; w<sw; w=w+100){
+		stroke(128);
+		line(w,0,w,sh);
+		text(w+"Hz", w+5, 45);
+	}
+	
+	textSize(15);
+	text(sala+" - Medidas: Altura = "+the+"cm, Anchura = "+twi+"cm, Longitud = "+tle+"cm",5,15);
+	checkBoxes();
+}
+
+void checkBoxes()
+{
+	for(int n=1;n<=7;n++)
+	{
+		if(n==1){fill(255,255,0);}
+		if(n==2){fill(0,0,255);}
+		if(n==3){fill(255,0,0);}
+		if(n==4){fill(0,128,0);}
+		if(n==5){fill(128,0,128);}
+		if(n==6){fill(255,128,0);}
+		if(n==7){fill(128);}
+		stroke(255);
+		rect(5+(n-1)*o,20,10,10);
+		if(axiales[n]==true){
+			if(n==1){stroke(128);}
+			line(5+(n-1)*o,20,5+(n-1)*o+10,30);
+			line(5+(n-1)*o,30,5+(n-1)*o+10,20);
+		}
+		fill(255);
+		textSize(10);
+		text(checks[n],20+(n-1)*o,30);
+	}
+}
+
+void changeButton(int button) {
+	if(axiales[button]==true){axiales[button]=false;}
+	else if(axiales[button]==false){axiales[button]=true;}
+}
+</script>
+<canvas style="image-rendering: -moz-crisp-edges ! important;" id="__processing0" tabindex="0" width=sw height=sh ></canvas>
+
+<br/><br/><b>Resonance</b> <small>Web Application (Version 0.0.3-local_web_β)<br/>
+By: Helios Martinez Dominguez<br/></small>
+
+</div>
+</div>
+<script src="js/processing.js" type="text/javascript"></script>
