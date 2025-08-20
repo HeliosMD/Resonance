@@ -1,3 +1,6 @@
+<!--**************-->
+<!--* DEPRECATED *-->
+<!--**************-->
 <head><title>Resonance</title></head>
 <body text="#777777" link="#777777" vlink="#777777"><font face="arial"><small><small>
 <?php
